@@ -1,4 +1,4 @@
-import "./env.js"; // Must be first to load env vars before other imports
+import "./loadEnv.js"; // Must be first to load env vars before other imports
 import app from "./server.js";
 import db from "./db.js";
 import { createSimpleSyncEngine } from "../../../../src/server/index.js";
