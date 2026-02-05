@@ -1,6 +1,6 @@
 {
   "name": "simple-sync-engine",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A very simple sync engine that sits on top of your mongoDB apps",
   "type": "module",
   "main": "./dist/server/index.js",
