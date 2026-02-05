@@ -88,15 +88,15 @@ export function SimpleSyncProvider({
           data.map((doc) =>
             doc._id === change.id
               ? change.fullDocument || { ...doc, ...change.changes }
-              : doc
-          )
+              : doc,
+          ),
         );
         break;
 
       case "delete":
         collectionData.current.set(
           collection,
-          data.filter((doc) => doc._id !== change.id)
+          data.filter((doc) => doc._id !== change.id),
         );
         break;
     }
@@ -133,7 +133,7 @@ export function SimpleSyncProvider({
       unsubMessage();
       client.disconnect();
     };
-  }, []);
+  }, [url]);
 
   const value: SimpleSyncContextValue = {
     client: clientRef.current,
@@ -152,7 +152,7 @@ export function useSimpleSyncContext() {
   const ctx = useContext(SimpleSyncContext);
   if (!ctx) {
     throw new Error(
-      "useSimpleSyncContext must be used within a SimpleSyncProvider"
+      "useSimpleSyncContext must be used within a SimpleSyncProvider",
     );
   }
 

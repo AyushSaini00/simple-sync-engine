@@ -6,6 +6,7 @@
 import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
 import type { Db } from "mongodb";
+import { ObjectId } from "mongodb";
 import { SubscriptionManager } from "./subscription-manager.js";
 import { ChangeWatcher } from "./change-watcher.js";
 import type {
@@ -64,7 +65,7 @@ export class SimpleSyncWebSocketServer {
       "change",
       (collection: string, change: ChangeEvent) => {
         this.broadcastChange(collection, change);
-      }
+      },
     );
   }
 
@@ -82,7 +83,7 @@ export class SimpleSyncWebSocketServer {
         await this.handleMutation(
           socket,
           message.collection,
-          message.operation
+          message.operation,
         );
         break;
     }
@@ -91,7 +92,7 @@ export class SimpleSyncWebSocketServer {
   private async handleSubscribe(
     socket: WebSocket,
     collection: string,
-    filter?: Record<string, unknown>
+    filter?: Record<string, unknown>,
   ) {
     // Register subscription
     this.subscriptionManager.subscribe(socket, collection, filter);
@@ -134,7 +135,7 @@ export class SimpleSyncWebSocketServer {
   private async handleMutation(
     socket: WebSocket,
     collection: string,
-    operation: MutationOperation
+    operation: MutationOperation,
   ): Promise<void> {
     try {
       const col = this.db.collection(collection);
@@ -145,16 +146,14 @@ export class SimpleSyncWebSocketServer {
           break;
 
         case "update":
-          const { ObjectId } = await import("mongodb");
           await col.updateOne(
             { _id: new ObjectId(operation.id) },
-            { $set: operation.changes }
+            { $set: operation.changes },
           );
           break;
 
         case "delete":
-          const { ObjectId: ObjId } = await import("mongodb");
-          await col.deleteOne({ _id: new ObjId(operation.id) });
+          await col.deleteOne({ _id: new ObjectId(operation.id) });
           break;
       }
       // Change stream will pick up the mutation and broadcast automatically

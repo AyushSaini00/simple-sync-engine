@@ -16,7 +16,7 @@ interface UseSimpleSyncMutationResult<T> {
 }
 
 export function useSimpleSyncMutation<T extends SyncDocument>(
-  collection: string
+  collection: string,
 ): UseSimpleSyncMutationResult<T> {
   const { client } = useSimpleSyncContext();
   const [loading, setLoading] = useState(false);
@@ -38,21 +38,21 @@ export function useSimpleSyncMutation<T extends SyncDocument>(
         switch (operation.type) {
           case "insert":
             op = {
-              op: "insert",
+              op: "insert" as const,
               document: operation.document,
             };
             break;
 
           case "update":
             op = {
-              op: "update",
+              op: "update" as const,
               id: operation.id,
               changes: operation.changes,
             };
             break;
 
           case "delete":
-            op = { op: "delete", id: operation.id };
+            op = { op: "delete" as const, id: operation.id };
             break;
         }
 
@@ -68,7 +68,7 @@ export function useSimpleSyncMutation<T extends SyncDocument>(
         setLoading(false);
       }
     },
-    [client, collection]
+    [client, collection],
   );
 
   return {

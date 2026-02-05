@@ -1,8 +1,10 @@
+import type { ClientMessage, ServerMessage } from "../shared/protocol.js";
+
 type SyncClientOptions = {
   autoReconnect?: boolean /** Auto-reconnect on disconnect (default: true) */;
   reconnectDelay?: number /** Reconnect delay in ms (default: 1000) */;
 };
-type MessageHandler = (message) => void;
+type MessageHandler = (message: ServerMessage) => void;
 type ConnectionHandler = () => void;
 
 export class SimpleSyncClient {
@@ -10,10 +12,10 @@ export class SimpleSyncClient {
   private options: SyncClientOptions;
   private ws: WebSocket | null = null;
   private isConnecting = false;
-  private pendingMessages = [];
-  private connectHandlers = new Set();
-  private messageHandlers = new Set();
-  private disconnectHandlers = new Set();
+  private pendingMessages: ClientMessage[] = [];
+  private connectHandlers = new Set<ConnectionHandler>();
+  private messageHandlers = new Set<MessageHandler>();
+  private disconnectHandlers = new Set<ConnectionHandler>();
 
   constructor(url: string, options: SyncClientOptions = {}) {
     this.url = url;
@@ -78,7 +80,7 @@ export class SimpleSyncClient {
     }
   }
 
-  send(message) {
+  send(message: ClientMessage) {
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(JSON.stringify(message));
     } else {

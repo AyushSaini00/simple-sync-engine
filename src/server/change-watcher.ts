@@ -66,11 +66,23 @@ export class ChangeWatcher extends EventEmitter {
         };
 
       case "update":
-      case "replace":
         return {
           op: "update",
           id: change.documentKey._id.toString(),
           changes: change.updateDescription?.updatedFields || {},
+          fullDocument: change.fullDocument
+            ? {
+                ...change.fullDocument,
+                _id: change.fullDocument._id.toString(),
+              }
+            : undefined,
+        };
+
+      case "replace":
+        return {
+          op: "update",
+          id: change.documentKey._id.toString(),
+          changes: {},
           fullDocument: change.fullDocument
             ? {
                 ...change.fullDocument,
