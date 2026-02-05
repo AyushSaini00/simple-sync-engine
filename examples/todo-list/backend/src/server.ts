@@ -1,10 +1,10 @@
 import express from "express";
-import type { Application } from "express";
+import type { Express } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
 
-const app: Application = express();
+const app: Express = express();
 
 app.use(cors());
 app.use(helmet());

@@ -15,7 +15,7 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0
       react:
-        specifier: ^19.2.4
+        specifier: ^18.0.0 || ^19.0.0
         version: 19.2.4
       ws:
         specifier: ^8.19.0
