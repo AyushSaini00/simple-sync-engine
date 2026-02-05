@@ -1,9 +1,9 @@
-import * as dotenv from "dotenv";
+import "./env.js"; // Must be first to load env vars before other imports
 import app from "./server.js";
-dotenv.config();
+import db from "./db.js";
+import { createSimpleSyncEngine } from "../../../../src/server/index.js";
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`server running on PORT : ${PORT}`);
-});
+const sync = createSimpleSyncEngine(app, db);
+sync.start(Number(PORT));

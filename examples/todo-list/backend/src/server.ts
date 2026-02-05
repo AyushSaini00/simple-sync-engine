@@ -1,5 +1,5 @@
 import express from "express";
-import type { Application, Request, Response } from "express";
+import type { Application } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
