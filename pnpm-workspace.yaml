@@ -1,0 +1,4 @@
+packages:
+  - "."
+  - "examples/todo-list/backend"
+  - "examples/todo-list/frontend"

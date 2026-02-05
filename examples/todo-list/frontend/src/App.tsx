@@ -3,7 +3,7 @@ import type { Todo } from "./types.js";
 import {
   useSimpleSyncQuery as useQuery,
   useSimpleSyncMutation as useMutation,
-} from "../../../../src/client/react/index.js";
+} from "simple-sync-engine/client/react";
 
 function App() {
   const [newTodo, setNewTodo] = useState("");
