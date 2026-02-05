@@ -3,14 +3,57 @@
   "version": "1.0.0",
   "description": "A very simple sync engine that sits on top of your mongoDB apps",
   "type": "module",
+  "main": "./dist/server/index.js",
+  "types": "./dist/server/index.d.ts",
+  "exports": {
+    "./server": {
+      "types": "./dist/server/index.d.ts",
+      "import": "./dist/server/index.js",
+      "development": "./src/server/index.ts"
+    },
+    "./client": {
+      "types": "./dist/client/client.d.ts",
+      "import": "./dist/client/client.js",
+      "development": "./src/client/client.ts"
+    },
+    "./client/react": {
+      "types": "./dist/client/react/index.d.ts",
+      "import": "./dist/client/react/index.js",
+      "development": "./src/client/react/index.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "pnpm run clean && pnpm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "sync engine"
+    "sync engine",
+    "mongodb",
+    "websocket",
+    "real-time",
+    "react"
   ],
   "author": "Ayush Saini",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AyushSaini00/simple-sync-engine"
+  },
   "packageManager": "pnpm@10.28.1",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/react": "^19.2.11",
@@ -21,7 +64,6 @@
   "dependencies": {
     "express": "^5.2.1",
     "mongodb": "^7.1.0",
-    "react": "^19.2.4",
     "ws": "^8.19.0"
   }
 }
